@@ -19,8 +19,8 @@ WITH
       ROUND(SUM(oi.sale_price), 2)                                       AS gross_revenue,
       ROUND(SUM(IF(oi.status != 'Returned', oi.sale_price, 0)), 2)       AS net_revenue,
       ROUND(SUM(IF(oi.status != 'Returned', oi.sale_price - p.cost, 0)), 2) AS net_gross_margin
-    FROM ${ref("stg_filtered_order_items")} AS oi
-    INNER JOIN ${ref("stg_product_dim")} AS p
+    FROM stg_filtered_order_items AS oi
+    INNER JOIN stg_product_dim AS p
       ON oi.product_id = p.product_id
     GROUP BY
       oi.order_month,

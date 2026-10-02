@@ -4,5 +4,5 @@
  * Depends on: thelook_revenue_margin_kpi
  */
 SELECT *
-FROM ${ref("thelook_revenue_margin_kpi")}
+FROM thelook_revenue_margin_kpi
 WHERE net_revenue < 0
