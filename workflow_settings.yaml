@@ -1,0 +1,4 @@
+defaultProject: okf-graph-demo
+defaultDataset: thelook_pipeline_demo
+defaultLocation: US
+dataformCoreVersion: 3.0.43
