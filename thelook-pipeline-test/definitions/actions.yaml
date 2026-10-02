@@ -1,5 +1,49 @@
 actions:
-- notebook:
-    name: Analytics Notebook
-    project: okf-graph-demo
-    filename: thelook_executive_analytics.ipynb
+  # ── Stage 1: Staging views (read from bigquery-public-data.thelook_ecommerce) ──
+
+  - view:
+      filename: stg_filtered_order_items.sql
+      name: stg_filtered_order_items
+      description: >
+        Filtered and pruned order items from TheLook E-Commerce.
+        Excludes cancelled orders, last 24 completed calendar months only.
+
+  - view:
+      filename: stg_product_dim.sql
+      name: stg_product_dim
+      description: >
+        Pruned product dimension from TheLook E-Commerce catalog.
+
+  # ── Stage 2: KPI table (depends on both staging views) ──
+
+  - table:
+      filename: thelook_revenue_margin_kpi.sql
+      name: thelook_revenue_margin_kpi
+      description: >
+        Monthly revenue, margin, and return-rate KPIs by department and
+        product category. Grain: (order_month, department, category).
+      dependencyTargets:
+        - name: stg_filtered_order_items
+        - name: stg_product_dim
+
+  # ── Stage 3: Data quality assertion (validates KPI table) ──
+
+  - assertion:
+      filename: assert_no_negative_revenue.sql
+      name: assert_no_negative_revenue
+      description: >
+        Fails if any row in thelook_revenue_margin_kpi has negative net revenue.
+      dependencyTargets:
+        - name: thelook_revenue_margin_kpi
+
+  # ── Stage 4: Executive Notebook (consumes KPI table) ──
+
+  - notebook:
+      filename: thelook_executive_analytics.ipynb
+      name: thelook_executive_analytics
+      project: okf-graph-demo
+      description: >
+        Executive analytics notebook — visualizes revenue trends and
+        category profitability from the materialized KPI table.
+      dependencyTargets:
+        - name: thelook_revenue_margin_kpi

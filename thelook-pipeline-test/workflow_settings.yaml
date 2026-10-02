@@ -1,5 +1,7 @@
 dataformCoreVersion: 3.0.56
 defaultProject: okf-graph-demo
+defaultDataset: thelook_pipeline_demo
+defaultLocation: US
 defaultNotebookRuntimeOptions:
   outputBucket: gs://pipeline-notebook-bucket
 includeTestsInCompiledGraph: true
