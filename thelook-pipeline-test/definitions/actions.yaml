@@ -1,0 +1,5 @@
+actions:
+- notebook:
+    name: Analytics Notebook
+    project: okf-graph-demo
+    filename: thelook_executive_analytics.ipynb

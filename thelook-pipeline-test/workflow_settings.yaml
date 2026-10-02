@@ -1,0 +1,5 @@
+dataformCoreVersion: 3.0.56
+defaultProject: okf-graph-demo
+defaultNotebookRuntimeOptions:
+  outputBucket: gs://pipeline-notebook-bucket
+includeTestsInCompiledGraph: true
